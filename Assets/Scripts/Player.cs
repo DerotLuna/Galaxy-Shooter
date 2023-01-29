@@ -5,6 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
+    private GameObject laserPrefab;
+
+    [SerializeField]
     private float speed = 5.0f;
 
     // Start is called before the first frame update (1 time)
@@ -18,6 +21,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         playerMovementController();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(laserPrefab, new Vector3( transform.position.x, 0.85f, 0 ), Quaternion.identity );
+        }
     }
 
     private void playerMovementController()
