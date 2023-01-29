@@ -24,7 +24,9 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Instantiate(laserPrefab, new Vector3( transform.position.x, 0.85f, 0 ), Quaternion.identity );
+            Instantiate(laserPrefab, 
+                new Vector3( transform.position.x, transform.position.y + 0.85f, transform.position.z ), 
+                Quaternion.identity );
         }
     }
 
