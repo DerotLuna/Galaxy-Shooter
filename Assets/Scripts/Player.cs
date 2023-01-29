@@ -10,10 +10,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _laserPrefab;
 
+    [SerializeField]
+    private GameObject _tripleLaserPrefab;
+
     //fireRate is 0.25f
     //canFire -- has the amount of time between firing passed? Time.time
     [SerializeField]
     private float _fireRate = 0.20F;
+
+    [SerializeField]
+    private bool _canTripleShoot = false;
 
     private float _nextFire = 0.0F;
 
@@ -49,9 +55,20 @@ public class Player : MonoBehaviour
         {
             if (Time.time > _nextFire)
             {
-                Instantiate(_laserPrefab,
+                if (_canTripleShoot)
+                {
+                    //center laser, right laser, and left laser
+                    Instantiate(_tripleLaserPrefab,
+                    transform.position,
+                    Quaternion.identity);
+                }
+                else
+                {
+                    //center laser
+                    Instantiate(_laserPrefab,
                     new Vector3(transform.position.x, transform.position.y + 0.85F, transform.position.z),
                     Quaternion.identity);
+                }
 
                 _nextFire = Time.time + _fireRate;
             }
@@ -80,5 +97,12 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(9.5F, transform.position.y, 0F);
         }
+    }
+
+    private void instantiateLaserPrefab(float x, float y)
+    {
+        Instantiate(_laserPrefab,
+                    new Vector3(transform.position.x + x, transform.position.y + y, transform.position.z),
+                    Quaternion.identity);
     }
 }
