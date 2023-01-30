@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public bool canTripleShoot = false;
+
     [SerializeField]
     private float _speed = 5.0F;
 
     [SerializeField]
     private GameObject _laserPrefab;
+
+    [SerializeField]
+    private GameObject _tripleLaserPrefab;
 
     //fireRate is 0.25f
     //canFire -- has the amount of time between firing passed? Time.time
@@ -49,9 +54,20 @@ public class Player : MonoBehaviour
         {
             if (Time.time > _nextFire)
             {
-                Instantiate(_laserPrefab,
+                if (canTripleShoot)
+                {
+                    //center laser, right laser, and left laser
+                    Instantiate(_tripleLaserPrefab,
+                    transform.position,
+                    Quaternion.identity);
+                }
+                else
+                {
+                    //center laser
+                    Instantiate(_laserPrefab,
                     new Vector3(transform.position.x, transform.position.y + 0.85F, transform.position.z),
                     Quaternion.identity);
+                }
 
                 _nextFire = Time.time + _fireRate;
             }
@@ -80,5 +96,24 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(9.5F, transform.position.y, 0F);
         }
+    }
+
+    private void instantiateLaserPrefab(float x, float y)
+    {
+        Instantiate(_laserPrefab,
+                    new Vector3(transform.position.x + x, transform.position.y + y, transform.position.z),
+                    Quaternion.identity);
+    }
+
+    private IEnumerator tripleShootPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(3);
+        canTripleShoot = false;
+    }
+
+    public void tripleShootPowerupOn()
+    {
+        canTripleShoot = true;
+        StartCoroutine(tripleShootPowerDownRoutine());
     }
 }
