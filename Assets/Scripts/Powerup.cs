@@ -10,7 +10,7 @@ public class Powerup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -22,6 +22,17 @@ public class Powerup : MonoBehaviour
     //Upon collision with another GameObject, this GameObject will reverse direction
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.name);
+        //other.name == "Player"
+        if (other.tag == "Player")
+        {
+            Player player = other.GetComponent<Player>();
+
+            if (player != null)
+            {
+                player.canTripleShoot = true;
+            }
+
+            Destroy(gameObject);
+        }
     }
 }

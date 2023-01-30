@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public bool canTripleShoot = false;
+
     [SerializeField]
     private float _speed = 5.0F;
 
@@ -17,9 +19,6 @@ public class Player : MonoBehaviour
     //canFire -- has the amount of time between firing passed? Time.time
     [SerializeField]
     private float _fireRate = 0.20F;
-
-    [SerializeField]
-    private bool _canTripleShoot = false;
 
     private float _nextFire = 0.0F;
 
@@ -55,7 +54,7 @@ public class Player : MonoBehaviour
         {
             if (Time.time > _nextFire)
             {
-                if (_canTripleShoot)
+                if (canTripleShoot)
                 {
                     //center laser, right laser, and left laser
                     Instantiate(_tripleLaserPrefab,

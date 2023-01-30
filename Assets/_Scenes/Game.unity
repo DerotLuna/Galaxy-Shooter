@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 781724681}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -353,11 +353,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4412878ddaa8e439774d5a7cecbee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canTripleShoot: 0
   _speed: 5
   _laserPrefab: {fileID: 7887477152770275356, guid: 62c1194795d0feb4cae581646b23312f, type: 3}
   _tripleLaserPrefab: {fileID: 8810332053634609372, guid: 04783d90602539540bbb0a096d0dd7e5, type: 3}
   _fireRate: 0.2
-  _canTripleShoot: 0
 --- !u!212 &781724679
 SpriteRenderer:
   m_ObjectHideFlags: 0
