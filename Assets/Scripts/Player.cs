@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public bool canTripleShoot = false;
-
     [SerializeField]
     private float _speed = 5.0F;
 
@@ -22,6 +20,13 @@ public class Player : MonoBehaviour
 
     private float _nextFire = 0.0F;
 
+    //Powerups
+    private bool _canTripleShoot = false;
+
+    private bool _isSpeedBoostActive = false;
+
+    private bool _canShield = false;
+
     // Start is called before the first frame update (1 time)
     void Start()
     {
@@ -32,14 +37,23 @@ public class Player : MonoBehaviour
     // Update is called once per frame. (After Start and 60 times per second )
     void Update()
     {
-        playerMovementController();
+        movement();
         shoot();
     }
 
-    private void playerMovementController()
+    private void movement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
+
+        if(_isSpeedBoostActive)
+        {
+            _speed = 15.0F;
+        }
+        else
+        {
+            _speed = 5.0F;
+        }
 
         transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
 
@@ -54,7 +68,7 @@ public class Player : MonoBehaviour
         {
             if (Time.time > _nextFire)
             {
-                if (canTripleShoot)
+                if (_canTripleShoot)
                 {
                     //center laser, right laser, and left laser
                     Instantiate(_tripleLaserPrefab,
@@ -98,22 +112,39 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void instantiateLaserPrefab(float x, float y)
-    {
-        Instantiate(_laserPrefab,
-                    new Vector3(transform.position.x + x, transform.position.y + y, transform.position.z),
-                    Quaternion.identity);
-    }
-
     private IEnumerator tripleShootPowerDownRoutine()
     {
         yield return new WaitForSeconds(3);
-        canTripleShoot = false;
+        _canTripleShoot = false;
     }
 
     public void tripleShootPowerupOn()
     {
-        canTripleShoot = true;
+        _canTripleShoot = true;
         StartCoroutine(tripleShootPowerDownRoutine());
+    }
+
+    private IEnumerator speedBoostPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(3);
+        _isSpeedBoostActive = false;
+    }
+
+    public void speedBoostPowerupOn()
+    {
+        _isSpeedBoostActive = true;
+        StartCoroutine(speedBoostPowerDownRoutine());
+    }
+
+    private IEnumerator shieldPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(3);
+        _canShield = false;
+    }
+
+    public void shieldPowerupOn()
+    {
+        _canShield = true;
+        StartCoroutine(shieldPowerDownRoutine());
     }
 }

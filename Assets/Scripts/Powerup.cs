@@ -29,7 +29,19 @@ public class Powerup : MonoBehaviour
 
             if (player != null)
             {
-                player.tripleShootPowerupOn();
+                if(tag == "TripleShoot")
+                {
+                    player.tripleShootPowerupOn();
+                }
+                else if(tag == "SpeedBoost")
+                {
+                    player.speedBoostPowerupOn();
+                }
+                else if(tag == "Shield")
+                {
+                    player.shieldPowerupOn();
+                }
+                
             }
 
             Destroy(gameObject);
