@@ -104,4 +104,16 @@ public class Player : MonoBehaviour
                     new Vector3(transform.position.x + x, transform.position.y + y, transform.position.z),
                     Quaternion.identity);
     }
+
+    private IEnumerator tripleShootPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(3);
+        canTripleShoot = false;
+    }
+
+    public void tripleShootPowerupOn()
+    {
+        canTripleShoot = true;
+        StartCoroutine(tripleShootPowerDownRoutine());
+    }
 }
