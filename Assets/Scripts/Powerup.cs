@@ -25,26 +25,28 @@ public class Powerup : MonoBehaviour
         //other.name == "Player"
         if (other.tag == "Player")
         {
-            Player player = other.GetComponent<Player>();
-
-            if (player != null)
-            {
-                if(tag == "TripleShoot")
-                {
-                    player.tripleShootPowerupOn();
-                }
-                else if(tag == "SpeedBoost")
-                {
-                    player.speedBoostPowerupOn();
-                }
-                else if(tag == "Shield")
-                {
-                    player.shieldPowerupOn();
-                }
-                
-            }
-
-            Destroy(gameObject);
+            playerCollision(other);
         }
+    }
+
+    private void playerCollision(Collider2D other)
+    {
+        Player player = other.GetComponent<Player>();
+        if (player != null)
+        {
+            if (tag == "TripleShoot")
+            {
+                player.tripleShootPowerupOn();
+            }
+            else if (tag == "SpeedBoost")
+            {
+                player.speedBoostPowerupOn();
+            }
+            else if (tag == "Shield")
+            {
+                player.shieldPowerupOn();
+            }
+        }
+        Destroy(gameObject);
     }
 }
