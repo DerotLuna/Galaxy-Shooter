@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -13,6 +12,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleLaserPrefab;
 
+    [SerializeField]
+    private GameObject _playerExplosionPrefab;
+
+    [SerializeField]
+    private GameObject _shield;
+
+    [SerializeField]
+    private byte _lives = 3;
+
     //fireRate is 0.25f
     //canFire -- has the amount of time between firing passed? Time.time
     [SerializeField]
@@ -25,7 +33,7 @@ public class Player : MonoBehaviour
 
     private bool _isSpeedBoostActive = false;
 
-    private bool _canShield = false;
+    private bool _isShieldActive = false;
 
     // Start is called before the first frame update (1 time)
     void Start()
@@ -114,7 +122,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator tripleShootPowerDownRoutine()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(6);
         _canTripleShoot = false;
     }
 
@@ -126,7 +134,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator speedBoostPowerDownRoutine()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(6);
         _isSpeedBoostActive = false;
     }
 
@@ -136,15 +144,40 @@ public class Player : MonoBehaviour
         StartCoroutine(speedBoostPowerDownRoutine());
     }
 
-    private IEnumerator shieldPowerDownRoutine()
-    {
-        yield return new WaitForSeconds(3);
-        _canShield = false;
-    }
-
     public void shieldPowerupOn()
     {
-        _canShield = true;
-        StartCoroutine(shieldPowerDownRoutine());
+        _isShieldActive = true;
+        _shield.gameObject.SetActive(true);
+    }
+
+    public void subtractLive()
+    {
+        if( _isShieldActive )
+        {
+            _isShieldActive = false;
+            _shield.gameObject.SetActive(false);
+        }
+        else
+        {
+            _lives--;
+
+            if (_lives == 0)
+            {
+                destroy();
+            }
+        }
+    }
+
+    private void destroy()
+    {
+        destructionAnimation();
+        Destroy(gameObject);
+    }
+
+    private void destructionAnimation()
+    {
+        Instantiate(_playerExplosionPrefab,
+            transform.position,
+            Quaternion.identity);
     }
 }
