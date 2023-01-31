@@ -1,11 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public bool canTripleShoot = false;
-
     [SerializeField]
     private float _speed = 5.0F;
 
@@ -15,12 +12,28 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleLaserPrefab;
 
+    [SerializeField]
+    private GameObject _playerExplosionPrefab;
+
+    [SerializeField]
+    private GameObject _shield;
+
+    [SerializeField]
+    private byte _lives = 3;
+
     //fireRate is 0.25f
     //canFire -- has the amount of time between firing passed? Time.time
     [SerializeField]
     private float _fireRate = 0.20F;
 
     private float _nextFire = 0.0F;
+
+    //Powerups
+    private bool _canTripleShoot = false;
+
+    private bool _isSpeedBoostActive = false;
+
+    private bool _isShieldActive = false;
 
     // Start is called before the first frame update (1 time)
     void Start()
@@ -32,14 +45,23 @@ public class Player : MonoBehaviour
     // Update is called once per frame. (After Start and 60 times per second )
     void Update()
     {
-        playerMovementController();
+        movement();
         shoot();
     }
 
-    private void playerMovementController()
+    private void movement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
+
+        if(_isSpeedBoostActive)
+        {
+            _speed = 15.0F;
+        }
+        else
+        {
+            _speed = 5.0F;
+        }
 
         transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
 
@@ -54,7 +76,7 @@ public class Player : MonoBehaviour
         {
             if (Time.time > _nextFire)
             {
-                if (canTripleShoot)
+                if (_canTripleShoot)
                 {
                     //center laser, right laser, and left laser
                     Instantiate(_tripleLaserPrefab,
@@ -98,22 +120,64 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void instantiateLaserPrefab(float x, float y)
-    {
-        Instantiate(_laserPrefab,
-                    new Vector3(transform.position.x + x, transform.position.y + y, transform.position.z),
-                    Quaternion.identity);
-    }
-
     private IEnumerator tripleShootPowerDownRoutine()
     {
-        yield return new WaitForSeconds(3);
-        canTripleShoot = false;
+        yield return new WaitForSeconds(6);
+        _canTripleShoot = false;
     }
 
     public void tripleShootPowerupOn()
     {
-        canTripleShoot = true;
+        _canTripleShoot = true;
         StartCoroutine(tripleShootPowerDownRoutine());
+    }
+
+    private IEnumerator speedBoostPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(6);
+        _isSpeedBoostActive = false;
+    }
+
+    public void speedBoostPowerupOn()
+    {
+        _isSpeedBoostActive = true;
+        StartCoroutine(speedBoostPowerDownRoutine());
+    }
+
+    public void shieldPowerupOn()
+    {
+        _isShieldActive = true;
+        _shield.gameObject.SetActive(true);
+    }
+
+    public void subtractLive()
+    {
+        if( _isShieldActive )
+        {
+            _isShieldActive = false;
+            _shield.gameObject.SetActive(false);
+        }
+        else
+        {
+            _lives--;
+
+            if (_lives == 0)
+            {
+                destroy();
+            }
+        }
+    }
+
+    private void destroy()
+    {
+        destructionAnimation();
+        Destroy(gameObject);
+    }
+
+    private void destructionAnimation()
+    {
+        Instantiate(_playerExplosionPrefab,
+            transform.position,
+            Quaternion.identity);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Laser : MonoBehaviour
@@ -16,16 +17,27 @@ public class Laser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        laserMovementController();
+        movement();
     }
 
-    private void laserMovementController()
+    private void movement()
     {
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
         if (transform.position.y >= 6.0F)
         {
-            Destroy(gameObject);
+            destroy();
         }
+    }
+
+    public void destroy()
+    {
+        //for tiple shoot
+        if (transform.parent != null)
+        {
+            Destroy(transform.parent.gameObject);
+        }
+
+        Destroy(gameObject);
     }
 }
