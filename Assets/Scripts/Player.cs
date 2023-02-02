@@ -28,6 +28,10 @@ public class Player : MonoBehaviour
 
     private float _nextFire = 0.0F;
 
+    private UIManager _uiManager;
+
+    private GameManager _gameManager;
+
     //Powerups
     private bool _canTripleShoot = false;
 
@@ -40,6 +44,15 @@ public class Player : MonoBehaviour
     {
         //current pos = new position
         transform.position = new Vector3(0F, 0F, 0F);
+
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
+        if (_uiManager != null)
+        {
+            _uiManager.updateLives(_lives);
+        }
     }
 
     // Update is called once per frame. (After Start and 60 times per second )
@@ -161,9 +174,15 @@ public class Player : MonoBehaviour
         {
             _lives--;
 
+            if (_uiManager != null)
+            {
+                _uiManager.updateLives(_lives);
+            }
+
             if (_lives == 0)
             {
                 destroy();
+                _gameManager.endGame();
             }
         }
     }

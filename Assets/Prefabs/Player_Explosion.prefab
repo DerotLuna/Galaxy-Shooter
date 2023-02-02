@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1535547125165473611}
   - component: {fileID: 1535547125165473604}
   - component: {fileID: 1535547125165473605}
-  - component: {fileID: -3512366477969270096}
+  - component: {fileID: -8840180727738085054}
   m_Layer: 0
   m_Name: Player_Explosion
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1535547125165473604
 SpriteRenderer:
@@ -106,7 +106,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &-3512366477969270096
+--- !u!114 &-8840180727738085054
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,6 +115,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1535547125165473606}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52e73d3b52e4e634c982227fb26f3c91, type: 3}
+  m_Script: {fileID: 11500000, guid: 33d733068c87ff942bce3b36ade419e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

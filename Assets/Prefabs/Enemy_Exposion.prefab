@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 211822239165087832}
   - component: {fileID: 211822239165087833}
   - component: {fileID: 211822239165087830}
-  - component: {fileID: -8483106894155317690}
+  - component: {fileID: -3056933034651095421}
   m_Layer: 0
   m_Name: Enemy_Exposion
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &211822239165087833
 SpriteRenderer:
@@ -106,7 +106,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &-8483106894155317690
+--- !u!114 &-3056933034651095421
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,6 +115,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 211822239165087831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8c35d7f31e28eb4cb6caeb882238656, type: 3}
+  m_Script: {fileID: 11500000, guid: 33d733068c87ff942bce3b36ade419e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

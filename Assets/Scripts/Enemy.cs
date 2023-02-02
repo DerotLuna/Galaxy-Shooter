@@ -5,36 +5,32 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    /*[SerializeField]
-    private GameObject _enemyPrefab;*/
-
     [SerializeField]
     private GameObject _enemyExplosionPrefab;
 
     [SerializeField]
-    private float _speed = 8.0F;
+    private float _speed = 7.0F;
+
+    private UIManager _uiManager;
 
     private float _limitScreenX = 7.5F;
 
     private float _limitScreenY = 6.5F;
+
+    
 
     // Start is called before the first frame update
     void Start()
     {
         float randomX = Random.Range(-_limitScreenX, _limitScreenX);
         transform.position = new Vector3(randomX, _limitScreenY, 0);
+
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*if (gameObject != null)
-        {
-            float randomValue = getRandomValue();
-            Instantiate(_enemyPrefab,
-                new Vector3(randomValue, 6, 0),
-                Quaternion.identity);
-        }*/
         movement();
     }
 
@@ -63,6 +59,7 @@ public class Enemy : MonoBehaviour
 
     private void playerCollision(Collider2D other)
     {
+        updateScore();
         Player player = other.GetComponent<Player>();
         if (player != null)
         {
@@ -73,6 +70,7 @@ public class Enemy : MonoBehaviour
 
     private void laserCollision(Collider2D  other)
     {
+        updateScore();
         Laser laser = other.GetComponent<Laser>();
         if (laser != null)
         {
@@ -81,9 +79,16 @@ public class Enemy : MonoBehaviour
         destroy();
     }
 
+    private void updateScore()
+    {
+        if (_uiManager != null)
+        {
+            _uiManager.updateScore();
+        }
+    }
+
     private void destroy()
     {
-       
         destructionAnimation();
         Destroy(gameObject);
     }
