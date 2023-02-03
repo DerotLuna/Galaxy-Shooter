@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -16,10 +17,19 @@ public class Player : MonoBehaviour
     private GameObject _playerExplosionPrefab;
 
     [SerializeField]
+    private GameObject[] _failuresPrefabs;
+
+    [SerializeField]
     private GameObject _shield;
 
     [SerializeField]
     private byte _lives = 3;
+
+    [SerializeField]
+    private AudioClip _audioLaser;
+
+    [SerializeField]
+    private AudioClip _audioPowerupOn;
 
     //fireRate is 0.25f
     //canFire -- has the amount of time between firing passed? Time.time
@@ -31,6 +41,8 @@ public class Player : MonoBehaviour
     private UIManager _uiManager;
 
     private GameManager _gameManager;
+
+    private AudioSource _audioSource;
 
     //Powerups
     private bool _canTripleShoot = false;
@@ -48,6 +60,8 @@ public class Player : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
+        _audioSource = GetComponent<AudioSource>();
 
         if (_uiManager != null)
         {
@@ -89,6 +103,7 @@ public class Player : MonoBehaviour
         {
             if (Time.time > _nextFire)
             {
+                _audioSource.PlayOneShot(_audioLaser);
                 if (_canTripleShoot)
                 {
                     //center laser, right laser, and left laser
@@ -142,25 +157,33 @@ public class Player : MonoBehaviour
     public void tripleShootPowerupOn()
     {
         _canTripleShoot = true;
+        activeAudioPowerupOn();
         StartCoroutine(tripleShootPowerDownRoutine());
     }
 
     private IEnumerator speedBoostPowerDownRoutine()
     {
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(10);
         _isSpeedBoostActive = false;
     }
 
     public void speedBoostPowerupOn()
     {
         _isSpeedBoostActive = true;
+        activeAudioPowerupOn();
         StartCoroutine(speedBoostPowerDownRoutine());
     }
 
     public void shieldPowerupOn()
     {
         _isShieldActive = true;
+        activeAudioPowerupOn();
         _shield.gameObject.SetActive(true);
+    }
+
+    private void activeAudioPowerupOn()
+    {
+        _audioSource.PlayOneShot(_audioPowerupOn);
     }
 
     public void subtractLive()
@@ -179,7 +202,15 @@ public class Player : MonoBehaviour
                 _uiManager.updateLives(_lives);
             }
 
-            if (_lives == 0)
+            if (_lives == 2)
+            {
+                _failuresPrefabs[0].SetActive(true);
+            }
+            else if (_lives == 1)
+            {
+                _failuresPrefabs[1].SetActive(true);
+            }
+            else
             {
                 destroy();
                 _gameManager.endGame();

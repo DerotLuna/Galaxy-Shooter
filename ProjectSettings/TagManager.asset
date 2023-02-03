@@ -4,10 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - SpeedBoost
-  - TripleShoot
   - Enemy
   - Laser
+  - Powerup
   - Shield
   layers:
   - Default
@@ -16,7 +15,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - PostProcess
   - 
   - 
   - 

@@ -26,6 +26,7 @@ public class SpawnManager : MonoBehaviour
     public void stopSpawn()
     { 
         _startRoutine = false;
+        destroyAll();
     }
 
     private IEnumerator spawnEnemyRoutine()
@@ -61,5 +62,20 @@ public class SpawnManager : MonoBehaviour
         Instantiate(_powerupPrefabs[randomIndex],
             new Vector3(randomX, _limitScreenY, 0),
             Quaternion.identity);
+    }
+
+    private void destroyAll()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach(GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+
+        GameObject[] powerups = GameObject.FindGameObjectsWithTag("Powerup");
+        foreach (GameObject powerup in powerups)
+        {
+            Destroy(powerup);
+        }
     }
 }

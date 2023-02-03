@@ -39,15 +39,15 @@ public class Powerup : MonoBehaviour
         Player player = other.GetComponent<Player>();
         if (player != null)
         {
-            if (tag == "TripleShoot")
+            if (name.Contains("Triple_Shoot_Powerup"))
             {
                 player.tripleShootPowerupOn();
             }
-            else if (tag == "SpeedBoost")
+            else if (name.Contains("Speed_Boost_Powerup"))
             {
                 player.speedBoostPowerupOn();
             }
-            else if (tag == "Shield")
+            else if (name.Contains("Shield_Powerup"))
             {
                 player.shieldPowerupOn();
             }
