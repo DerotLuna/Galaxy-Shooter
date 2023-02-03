@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     {
         if (_gameOver)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 _gameOver = false;
                 if(_uiManager != null) 

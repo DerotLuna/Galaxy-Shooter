@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour
     private GameObject _titleScreenImage;
 
     [SerializeField]
+    private GameObject _enterScreenText;
+
+    [SerializeField]
     private Text _scoreText;
 
     [SerializeField]
@@ -40,11 +43,13 @@ public class UIManager : MonoBehaviour
     public void showTitleScreen()
     {
         _titleScreenImage.SetActive(true);
+        _enterScreenText.SetActive(true);
         
     }
     public void hideTitleScreen()
     {
         _titleScreenImage.SetActive(false);
+        _enterScreenText.SetActive(false);
     }
 
     public void resetUI()
